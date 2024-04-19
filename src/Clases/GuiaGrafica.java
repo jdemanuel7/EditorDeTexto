@@ -39,11 +39,11 @@ public class GuiaGrafica extends JFrame implements ActionListener {
     public GuiaGrafica(String str) {
         super(str);
         panelPrincipal = new JPanel();
-        panelPrincipal = (JPanel) getContentPane();
-        panelPrincipal.setLayout(new BorderLayout());
+        panelPrincipal = (JPanel) getContentPane();   // devuelve el contenedor principal donde se colocan los componentes de la interfaz gráfica
+        panelPrincipal.setLayout(new BorderLayout());  // organiza los componentes
 
-        mbar = new MenuBar();
-        setMenuBar(mbar);
+        mbar = new MenuBar();          //barra de menú en una interfaz gráfica
+        setMenuBar(mbar);                //establece la barra del menu
 
         file = new Menu("Archivo");
         edit = new Menu("Edición");
@@ -56,7 +56,7 @@ public class GuiaGrafica extends JFrame implements ActionListener {
         file.add((item1 = new MenuItem("Nuevo...")));
         file.add((item2 = new MenuItem("Abrir")));
         file.add((item3 = new MenuItem("Guardar como")));
-        file.addSeparator();
+        file.addSeparator();  //separador visual
         file.add((item4 = new MenuItem("Salir")));
         mbar.add(file);
 
@@ -126,24 +126,24 @@ public class GuiaGrafica extends JFrame implements ActionListener {
         colorGreen.addActionListener(this);
 
         text = new JTextPane();
-        JScrollPane scrollPane = new JScrollPane(text);
-        panelPrincipal.add(scrollPane, BorderLayout.CENTER);
+        JScrollPane scrollPane = new JScrollPane(text);  //desplegables
+        panelPrincipal.add(scrollPane, BorderLayout.CENTER);  //centrar el panel
 
-        f = new Font("Cursiva", Font.PLAIN, 15);
+        f = new Font("Cursiva", Font.PLAIN, 15);  //establecer la fuente
         text.setFont(f);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        commando = e.getActionCommand();
+        commando = e.getActionCommand();  //Asigna la accion a comando
 
         if (commando.equals("Nuevo...")) {
             GuiaGrafica nota1 = new GuiaGrafica("Archivo");
             nota1.setSize(500, 500);
             nota1.setVisible(true);
-            nota1.text.requestFocus();
+            nota1.text.requestFocus();  //Resaltar visualmente
         } else if (commando.equals("Abrir")) {
-            str4 = "";
+            str4 = "";  //Guardar la cadena de texto
             FileDialog dialogo = new FileDialog(this, "Abrir");
             dialogo.setVisible(true);
 
@@ -153,13 +153,13 @@ public class GuiaGrafica extends JFrame implements ActionListener {
             try {
                 File f = new File(str3);
                 FileInputStream fobj = new FileInputStream(f);
-                len = (int) f.length();
-                for (int j = 0; j < len; j++) {
-                    char str5 = (char) fobj.read();
+                len = (int) f.length();   //longitud de archivo
+                for (int j = 0; j < len; j++) {  //bucle para leer el tamaño
+                    char str5 = (char) fobj.read();  //se lee y se convierte en caracteres
                     str4 = str4 + str5;
                 }
             } catch (IOException exception) {
-                exception.printStackTrace();
+                exception.printStackTrace();  //Excepcion para ver donde ocurrio el error
             }
         } else if (commando.equals("Guardar como")) {
             FileDialog dialogo1 = new FileDialog(this, "Guardar como", FileDialog.SAVE);
@@ -171,12 +171,12 @@ public class GuiaGrafica extends JFrame implements ActionListener {
 
             str6 = text.getText();
             len1 = str6.length();
-            byte buf[] = str6.getBytes();
+            byte buf[] = str6.getBytes();  //matriz de bytes que representa los caracteres en la cadena 
 
             try {
                 File file1 = new File(str9);
-                FileOutputStream fobjl1 = new FileOutputStream(file1);
-                for (int k = 0; k < len1; k++) {
+                FileOutputStream fobjl1 = new FileOutputStream(file1);  //escribir bytes en el archivo representado por el objeto file1
+                for (int k = 0; k < len1; k++) {   //bucle
                     fobjl1.write(buf[k]);
                 }
                 fobjl1.close();
@@ -193,7 +193,7 @@ public class GuiaGrafica extends JFrame implements ActionListener {
             text.replaceSelection(str);
         } else if (commando.equals("Borrar")) {
             String msg = text.getSelectedText();
-            i = text.getText().indexOf(msg);
+            i = text.getText().indexOf(msg);  //obtener el texto
             text.replaceSelection(str);
         } else if (commando.equals("Seleccionar Todo")) {
             String seleccionarTodo = text.getText();
@@ -211,13 +211,13 @@ public class GuiaGrafica extends JFrame implements ActionListener {
     private void changeFontSize(String size) {
         int start = text.getSelectionStart();
         int end = text.getSelectionEnd();
-        StyledDocument doc = text.getStyledDocument();
-        Style style = doc.addStyle("CustomStyle", null);
+        StyledDocument doc = text.getStyledDocument();  //acceder y manipular directamente el contenido del texto 
+        Style style = doc.addStyle("CustomStyle", null);  //Aplicar formato de letra al documento
         int fontSize = Integer.parseInt(size);
 
-        StyleConstants.setFontSize(style, fontSize);
+        StyleConstants.setFontSize(style, fontSize);  //especificar el tamaño de la letra
 
-        doc.setCharacterAttributes(start, end - start, style, false);
+        doc.setCharacterAttributes(start, end - start, style, false);  //estilos a porciones específicas de texto
     }
 
     private void changeFont(String fontName) {
@@ -255,7 +255,7 @@ public class GuiaGrafica extends JFrame implements ActionListener {
         StyledDocument doc = text.getStyledDocument();
         Style style = doc.addStyle("CustomStyle", null);
 
-        StyleConstants.setForeground(style, fontColor);
+        StyleConstants.setForeground(style, fontColor);  //establecer el color a la letra
 
         doc.setCharacterAttributes(start, end - start, style, false);
     }
@@ -276,7 +276,7 @@ public class GuiaGrafica extends JFrame implements ActionListener {
             int start = text.getSelectionStart();
             int end = text.getSelectionEnd();
             StyledDocument doc = text.getStyledDocument();
-            Style style = doc.addStyle("CustomStyle", null);
+            Style style = doc.addStyle("CustomStyle", null);  //Crear estilo de letra
             String command = e.getActionCommand();
 
             if (command.equals("Negrita")) {
